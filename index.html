@@ -1,0 +1,44 @@
+<!--AQUI VA EL LOGIN-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ActaGol - Iniciar Sesión</title>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>ActaGol</h1>
+      <p>Plataforma digital para el registro arbitral</p>
+
+      <form action="partidos.html" method="get">
+        <fieldset>
+          <legend>Ingreso a la plataforma</legend>
+          
+          <div>
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required placeholder="arbitro@actagol.cl">
+          </div>
+
+          <div>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+
+          <div>
+            <label for="rol">Rol de acceso (demostración):</label>
+            <select id="rol" name="rol">
+              <option value="arbitro">Árbitro</option>
+              <option value="coordinador">Coordinador</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+
+          <button type="submit">Entrar</button>
+        </fieldset>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
