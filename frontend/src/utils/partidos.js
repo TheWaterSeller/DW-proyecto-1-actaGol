@@ -1,6 +1,9 @@
-import {roles} from "../data/datos";
+import { roles } from "../data/datos";
 
 export function nombreRol(rolId) {
-  return roles.find((rol) => rol.id === rolId)?.nombre ?? "";
+  const rolEncontrado = roles.find((rol) => rol.id === rolId);
+  if (rolEncontrado) {
+    return rolEncontrado.nombre;
+  }
+  return "";
 }
-

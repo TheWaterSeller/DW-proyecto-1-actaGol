@@ -9,7 +9,7 @@ function validarLogin(form) {
 
   if (email === "") {
     errores.email = "Ingresa tu correo electrónico.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  } else if (!email.includes("@") || !email.includes(".")) {
     errores.email = "Escribe un correo válido, por ejemplo arbitro@actagol.cl.";
   }
 
@@ -37,7 +37,7 @@ function Login({ onIngresar }) {
     const nuevosErrores = validarLogin(form);
     setErrores(nuevosErrores);
 
-    if (Object.keys(nuevosErrores).length > 0) {
+    if (nuevosErrores.email || nuevosErrores.password) {
       return;
     }
 
@@ -58,17 +58,10 @@ function Login({ onIngresar }) {
               name="email"
               type="email"
               placeholder="arbitro@actagol.cl"
-              autoComplete="username"
               value={form.email}
               onChange={handleChange}
-              aria-invalid={errores.email ? "true" : "false"}
-              aria-describedby={errores.email ? "email-error" : undefined}
             />
-            {errores.email && (
-              <p id="email-error" className="mensaje-error">
-                {errores.email}
-              </p>
-            )}
+            {errores.email && <p className="mensaje-error">{errores.email}</p>}
           </div>
 
           <div className="campo">
@@ -77,17 +70,10 @@ function Login({ onIngresar }) {
               id="password"
               name="password"
               type="password"
-              autoComplete="current-password"
               value={form.password}
               onChange={handleChange}
-              aria-invalid={errores.password ? "true" : "false"}
-              aria-describedby={errores.password ? "password-error" : undefined}
             />
-            {errores.password && (
-              <p id="password-error" className="mensaje-error">
-                {errores.password}
-              </p>
-            )}
+            {errores.password && <p className="mensaje-error">{errores.password}</p>}
           </div>
 
           <div className="campo">
