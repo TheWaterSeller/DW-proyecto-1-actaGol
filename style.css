@@ -48,6 +48,7 @@ h1 {
     margin-bottom: 16px;
 }
 
+
 /*le agrega ese fondo del section pero al header*/
 header {
     background-color: rgba(255, 255, 255, 0.05);
@@ -80,7 +81,7 @@ nav a {
 nav a:hover {
     opacity: 1;
 }
-/* Esto es para todo el area principal de la pagina (filtroo y tabla)*/
+/* Esto es para todo el area principal de la pagina */
 
 .main-container {
     max-width: 1200px;
@@ -158,4 +159,132 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+/* --- PARTIDO-DETALLE --- */
+
+/* Divide el contenido en 2 columnas*/
+.grid-2-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+/*media sirve para que se ajuste el tamaño dependiendo de la resolucion*/
+@media (min-width: 768px) {
+    .grid-2-cols {
+        grid-template-columns: 1fr 2fr; 
+    }
+}
+
+/* Tarjeta principal para mostrar el marcador */
+.scoreboard {
+    text-align: center;
+    padding: 24px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.score {
+    font-size: 48px;
+    font-weight: bold;
+    color: #a78bfa;
+    margin: 12px 0;
+}
+
+/* Badge de "Programado"*/
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge-prog {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid #3b82f6;
+}
+
+/* Titulos dentro de las tarjetas */
+section h3 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+/* Formato para la lista*/
+dl.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+dl.info-list dt {
+    font-size: 13px;
+    color: #a78bfa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+dl.info-list dd {
+    font-size: 15px;
+    margin-left: 0;
+    color: #ffffff;
+}
+
+/* Seccion de botones/acciones al final de la tarjeta */
+.actions-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Estilo para convertir enlaces secundarios en botones limpios */
+.btn-secondary {
+    display: inline-block;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+}
+
+/*la lista de arbitros */
+ul.referee-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+ul.referee-list li {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+}
+
+ul.referee-list li span.role {
+    color: #a78bfa;
+    font-weight: bold;
 }

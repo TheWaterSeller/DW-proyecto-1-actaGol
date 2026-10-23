@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 1. Enlace a tu archivo CSS -->
+  <link rel="stylesheet" href="style.css">
   <title>ActaGol - Detalles del Partido</title>
 </head>
 
 <body>
 
-
   <header>
     <h1>ActaGol</h1>
     <p>
-        
-        <strong>Usuario:</strong> Usuario |
-        <strong>Rol:</strong> Árbitro 
-
-
+      <strong>Usuario:</strong> Usuario |
+      <strong>Rol:</strong> Árbitro 
     </p>
     <nav>
       <ul>
@@ -26,47 +24,73 @@
     </nav>
   </header>
 
+  <main class="main-container">
+    <h2>Detalle del Partido</h2>
 
-  <main>
-    <h2> Detalle de Partidos</h2>
+    <!-- Marcador principal-->
+    <div class="scoreboard">
+      <h3>Pokemon FC vs Digimon FC</h3>
+      <div class="score">0 - 0</div>
+      <span class="badge badge-prog">Programado</span>
+    </div>
 
-   <section aria-labelledby="torneo-apertura-programado">
-   <h3 id="torneo-apertura-programado">Torneo Apertura 2026 <span class="estado">Programado</span></h3>
+    <!--formato de 2 columnas -->
+    <div class="grid-2-cols">
+      
+      <!-- Columna 1: Datos del Encuentro -->
+      <section aria-labelledby="torneo-apertura-programado">
+        <h3 id="torneo-apertura-programado">Torneo Apertura 2026</h3>
 
-  <article class="partido">
-    <h3>Pokemon FC vs Digimon fc</h3>
-    <a href="plantel1.html">Ver plantel de los Equipos</a>
-    <dl>
-      <dt>Fecha y hora</dt>
-      <dd><time datetime="2026-10-10T15:30">10/10/2026 a las 15:30</time></dd>
+        <dl class="info-list">
+          <div>
+            <dt>Fecha y hora</dt>
+            <dd><time datetime="2026-10-10T15:30">10/10/2026 a las 15:30 hrs</time></dd>
+          </div>
 
-      <dt>Cancha</dt>
-      <dd>Estadio Monumental</dd>
+          <div>
+            <dt>Cancha / Estadio</dt>
+            <dd>Estadio Monumental</dd>
+          </div>
 
-      <dt>Árbitro</dt>
-      <dd>Árbitro Central</dd>
-    </dl>
-  </article>
+          <div>
+            <dt>Árbitro Asignado</dt>
+            <dd>Árbitro Central</dd>
+          </div>
+        </dl>
 
-  <div>
-    <p><strong>Acción arbitral:</strong></p>
-    <a href="acta-previa1.html">Ingresar al Acta Digital</a>
-  </div>
-</section>
+        <div class="actions-group">
+          <p><strong>Acciones disponibles:</strong></p>
+          <a href="plantel1.html" class="btn-secondary">Ver plantel de los Equipos</a>
+          <a href="acta-previa1.html"><button type="button" style="width: 100%;">Ingresar al Acta Digital</button></a>
+        </div>
+      </section>
 
+      <!-- Columna 2: Cuerpo Arbitral Designado -->
+      <section aria-labelledby="titulo_arbitros">
+        <h3 id="titulo_arbitros">Cuerpo Arbitral Designado</h3>
+        
+        <ul class="referee-list">
+          <li>
+            <span class="role">Árbitro Central:</span>
+            <span>David Cáceres</span>
+          </li>
+          <li>
+            <span class="role">Árbitro Asistente 1:</span>
+            <span>Jorge Perez</span>
+          </li>
+          <li>
+            <span class="role">Árbitro Asistente 2:</span>
+            <span>Martin Martinez</span>
+          </li>
+          <li>
+            <span class="role">Cuarto Árbitro:</span>
+            <span>Camila Herrera</span>
+          </li>
+        </ul>
+      </section>
 
-<section aria-labelledby="titulo_arbitros">
-  <h2 id="titulo_arbitros">Cuerpo Arbitral Designado</h2>
-  <ul> 
-    <li><strong>Árbitro Central:</strong> David Cáceres</li>
-    <li><strong>Árbitro Asistente 1:</strong> Jorge Perez</li>
-    <li><strong>Árbitro Asistente 2:</strong> Martin Martinez</li>
-    <li><strong>Cuarto Árbitro:</strong> Camila Herrera</li>
-
-  </ul>
-</section>
-
-</main>
+    </div>
+  </main>
 
   <footer>
     <p><small>&copy; 2026 ActaGol - Sistema de Registro Arbitral.</small></p>
