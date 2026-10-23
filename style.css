@@ -1,20 +1,26 @@
-* {
+* { /*elimina el relleno de las etiquetas*/
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body { /*define la "base" del estilo de la pagina (color,fuente,etc)*/
     font-family: sans-serif;
     background: linear-gradient(to bottom, #050508, #2a164d);
     color: rgb(255, 255, 255);
-    min-height: 100vh; /* altura para que tome el 100% de la ventana*/
+    min-height: 100vh; 
+}
+
+
+.login-container { /*centra el login*/
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-section{
+section { /* esa tarjeta translucida de fondo en los section*/
     background-color: rgba(255, 255, 255, 0.05);
     padding: 24px;
     border-radius: 16px;
@@ -23,20 +29,133 @@ section{
     width: 100%;
 }
 
-fieldset{
+/*Quita o cambia cosas del fieldset*/
+fieldset { 
     border: none;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-legend{
+legend {
     display: none;
 }
 
-h1{
+h1 {
     font-size: 40px;
     text-align: center;
     font-weight: bold;
     margin-bottom: 16px;
+}
+
+/*le agrega ese fondo del section pero al header*/
+header {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 24px;
+    margin-bottom: 0;
+}
+
+/*esto sirve para modificar el nav y los links*/
+nav ul {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+}
+
+nav a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.5;
+}
+
+nav a:hover {
+    opacity: 1;
+}
+/* Esto es para todo el area principal de la pagina (filtroo y tabla)*/
+
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.main-container section {
+    max-width: 100%;
+}
+
+/*filtro*/
+input, select, button {
+    font-family: inherit;
+}
+
+input, select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    width: 100%;
+}
+
+select option {
+    background-color: #050508;
+    color: #ffffff;
+}
+
+button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2a164d;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+button:hover {
+    background-color: #3b1f6c;
+}
+
+/*tabla*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+    background-color: rgba(255, 255, 255, 0.08);
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+a {
+    color: #a78bfa;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
