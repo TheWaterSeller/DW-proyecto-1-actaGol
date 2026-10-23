@@ -354,12 +354,69 @@ ul.referee-list li span.role {
     border-bottom: 2px solid #a78bfa; 
 }
 
+/* --- ACTA PREVIA / EVENTOS --- */
+
+/* Tablas en 2 columnas dentro del acta */
+.Tablas_info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
 @media (min-width: 768px) {
-    .grid-2-cols.grid-equitativa {
-        grid-template-columns: 1fr 1fr; /* 50% y 50% exacto para planteles */
+    .Tablas_info {
+        grid-template-columns: 1fr 1fr; /* Una tabla a cada lado */
     }
 }
-/* Permite que las tarjetas dentro del grid usen todo el ancho disponible */
-.grid-2-cols section {
-    max-width: 100%;
+
+/* Tabla de Resultado Final destacada */
+.tabla-resultado {
+    width: 100%;
+    margin-top: 16px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla-resultado caption {
+    caption-side: top;
+    font-weight: bold;
+    color: #a78bfa;
+    padding: 8px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.tabla-resultado td {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Formato para Incidencias y Observaciones */
+.incidencias-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.incidencias-list > li {
+    font-weight: bold;
+    color: #a78bfa;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 4px;
+}
+
+.incidencia-item {
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-left: 3px solid #a78bfa;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #ffffff;
 }
