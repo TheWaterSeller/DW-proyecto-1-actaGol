@@ -169,13 +169,23 @@ a:hover {
     grid-template-columns: 1fr;
     gap: 24px;
 }
-/*media sirve para que se ajuste el tamaño dependiendo de la resolucion*/
+
+/* Permite que las tarjetas dentro del grid usen todo el ancho disponible */
+.grid-2-cols section {
+    max-width: 100%;
+}
+
+/* Reglas para pantallas de PC/Tablet*/
 @media (min-width: 768px) {
     .grid-2-cols {
         grid-template-columns: 1fr 2fr; 
     }
-}
 
+    /* Excepcion: 50% y 50% exacto para planteles cuando tiene la clase .grid-equitativa */
+    .grid-2-cols.grid-equitativa {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
 /* Tarjeta principal para mostrar el marcador */
 .scoreboard {
     text-align: center;
@@ -287,4 +297,69 @@ ul.referee-list li {
 ul.referee-list li span.role {
     color: #a78bfa;
     font-weight: bold;
+}
+
+/* --- VISTA DE PLANTELES --- */
+
+/* Ajustes de la tabla del plantel */
+.tabla_plantel {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Formato para encabezados de equipo y categoria */
+.tabla_plantel th {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    font-weight: bold;
+    padding: 10px 12px;
+}
+
+/* Alineacion especifica de dorsales y nombres */
+.tabla_plantel td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tabla_plantel td:first-child {
+    font-weight: bold;
+    color: #a78bfa; /* Destaca el dorsal con color lila */
+    width: 60px;
+    text-align: center;
+}
+
+/* Estilo para la fila del Capitan (tfoot) */
+.tabla_plantel tfoot tr {
+    background-color: rgba(167, 139, 250, 0.1);
+    font-weight: bold;
+}
+
+.tabla_plantel tfoot th {
+    color: #a78bfa;
+    text-align: left;
+    background-color: transparent;
+}
+
+
+.equipo-titulo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #a78bfa; 
+}
+
+@media (min-width: 768px) {
+    .grid-2-cols.grid-equitativa {
+        grid-template-columns: 1fr 1fr; /* 50% y 50% exacto para planteles */
+    }
+}
+/* Permite que las tarjetas dentro del grid usen todo el ancho disponible */
+.grid-2-cols section {
+    max-width: 100%;
 }

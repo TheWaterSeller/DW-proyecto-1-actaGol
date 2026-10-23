@@ -4,17 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>ActaGol-plantel3</title>
+  <title>ActaGol - Planteles del Partido</title>
 </head>
-<main>
-  <section>
-    <table class="tabla_plantel" border="1">
+
+<body>
+
+  <header>
+    <h1>ActaGol</h1>
+    <nav>
+      <ul>
+        <li><a href="partido-detalle.html">Volver al Detalle</a></li>
+        <li><a href="partidos.html">Partidos Asignados</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <h2>Planteles Oficiales</h2>
+
+    <div class="grid-2-cols grid-equitativa"> <!--aplicar el formato de columnas-->
+
+      <!--EQUIPO 1-->
+    <section>
+      <h3 class="equipo-titulo">POKEMON FC</h3>
+    <table class="tabla_plantel">
       <thead>
         <tr>
-          <th colspan="3">Tabla titulares</th>
-        </tr>
-        <tr>
-          <th colspan="3">EQUIPO: POKEMON FC</th>
+          <th colspan="2">Titulares</th>
         </tr>
         <tr>
           <th>Dorsal</th>
@@ -40,13 +56,10 @@
       </tfoot>
     </table>
 
-       <table class="tabla_plantel" border="1">
+       <table class="tabla_plantel">
       <thead>
         <tr>
-          <th colspan="3">Tabla Suplentes</th>
-        </tr>
-        <tr>
-          <th colspan="3">EQUIPO: POKEMON FC</th>
+          <th colspan="2">Suplentes</th>
         </tr>
         <tr>
           <th>Dorsal</th>
@@ -59,15 +72,15 @@
 
     </table>
   </section>
-    
+
+    <!--EQUIPO 2-->
   <section>
-    <table class="tabla_plantel" border="1">
+
+    <h3 class="equipo-titulo">DIGIMON FC</h3>
+    <table class="tabla_plantel">
       <thead>
         <tr>
-          <th colspan="3">Tabla titulares</th>
-        </tr>
-        <tr>
-          <th colspan="3">EQUIPO: DIGIMON FC</th>
+          <th colspan="2">Titulares</th>
         </tr>
         <tr>
           <th>Dorsal</th>
@@ -93,13 +106,10 @@
       </tfoot>
     </table>
 
-       <table class="tabla_plantel" border="1">
+       <table class="tabla_plantel">
       <thead>
         <tr>
-          <th colspan="3">Tabla Suplentes</th>
-        </tr>
-        <tr>
-          <th colspan="3">EQUIPO: DIGIMON FC</th>
+          <th colspan="2">Suplentes</th>
         </tr>
         <tr>
           <th>Dorsal</th>
@@ -112,7 +122,11 @@
 
     </table>
   </section>
+  </div>
 </main>
+<footer>
+    <p><small>&copy; 2026 ActaGol - Sistema de Registro Arbitral.</small></p>
+  </footer>
 
- 
+</body>
 </html>
