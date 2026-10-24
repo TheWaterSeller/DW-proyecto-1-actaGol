@@ -1,4 +1,56 @@
-export default function ActaPrevia({ cambiarVista }) {
+import { partidos, eventos } from "../data/datos";
+import { buscarEquipo, formatearFecha, contarGoles } from "../utils/partidos";
+
+export default function ActaPrevia({ cambiarVista, partidoId }) {
+  const partido = partidos.find((p) => p.id === partidoId);
+  const equiposDelPartido = [buscarEquipo(partido.localId), buscarEquipo(partido.visitaId)];
+  const eventosDelPartido = eventos.filter((evento) => evento.partidoId === partido.id);
+
+  const amonestaciones = eventosDelPartido.filter((evento) => evento.tipo === "amarilla");
+  const expulsiones = eventosDelPartido.filter((evento) => evento.tipo === "roja");
+  const otrasIncidencias = eventosDelPartido.filter(
+    (evento) => evento.tipo === "falta" || evento.tipo === "incidencia"
+  );
+
+  function contarEventosJugador(equipoId, dorsal, tipo) {
+    const encontrados = eventosDelPartido.filter(
+      (evento) => evento.equipoId === equipoId && evento.dorsal === dorsal && evento.tipo === tipo
+    );
+    return encontrados.length;
+  }
+
+  function textoTarjeta(equipoId, dorsal) {
+    if (contarEventosJugador(equipoId, dorsal, "roja") > 0) {
+      return "Roja";
+    }
+    if (contarEventosJugador(equipoId, dorsal, "amarilla") > 0) {
+      return "Amarilla";
+    }
+    return "Sin tarjeta";
+  }
+
+  function nombreJugador(equipoId, dorsal) {
+    const equipo = buscarEquipo(equipoId);
+    const jugador = equipo.jugadores.find((j) => j.dorsal === dorsal);
+    if (jugador) {
+      return jugador.nombre;
+    }
+    return "";
+  }
+
+  function mostrarIncidencias(lista) {
+    if (lista.length === 0) {
+      return <div className="incidencia-item">No ocurridas</div>;
+    }
+    return lista.map((evento) => (
+      <div key={evento.id} className="incidencia-item">
+        <strong>{buscarEquipo(evento.equipoId).nombre}:</strong>{" "}
+        {nombreJugador(evento.equipoId, evento.dorsal)} (min {evento.minuto}&apos;)
+        {evento.observacion !== "" && `: ${evento.observacion}`}
+      </div>
+    ));
+  }
+
   return (
     <>
       <header>
@@ -12,94 +64,71 @@ export default function ActaPrevia({ cambiarVista }) {
       </header>
 
       <main className="main-container">
-        <h2>Acta Del Partido</h2>
+        <h2>Acta del Partido #{partido.id}</h2>
         
         <section>
-          <h3>Partido realizado el 10 de Octubre del 2026</h3>
+          <h3>Partido del {formatearFecha(partido.fecha)} a las {partido.hora} hrs</h3>
           <dl className="info-list">
             <div>
               <dt>Encuentro</dt>
-              <dd>POKEMON FC vs DIGIMON FC</dd>
+              <dd>{equiposDelPartido[0].nombre} vs {equiposDelPartido[1].nombre}</dd>
+            </div>
+            <div>
+              <dt>Cancha</dt>
+              <dd>{partido.cancha}</dd>
             </div>
           </dl>
 
           <h3>Cuerpo Arbitral</h3>
           <ul className="referee-list">
-            <li><span className="role">Árbitro Central:</span> <span>David Cáceres</span></li>
-            <li><span className="role">Árbitro Asistente 1:</span> <span>Jorge Perez</span></li>
-            <li><span className="role">Árbitro Asistente 2:</span> <span>Martin Martinez</span></li>
-            <li><span className="role">Cuarto Árbitro:</span> <span>Camila Herrera</span></li>
+            <li><span className="role">Árbitro Central:</span> <span>{partido.arbitros.central}</span></li>
+            <li><span className="role">Árbitro Asistente 1:</span> <span>{partido.arbitros.asistente1}</span></li>
+            <li><span className="role">Árbitro Asistente 2:</span> <span>{partido.arbitros.asistente2}</span></li>
+            <li><span className="role">Cuarto Árbitro:</span> <span>{partido.arbitros.cuarto}</span></li>
           </ul>
         </section>
         
         <section>
           <h3>Estadísticas de Jugadores</h3>
           <div className="Tablas_info">
-            <table className="tabla-equipo">
-              <thead>
-                <tr><th colSpan="3">POKEMON FC</th></tr>
-                <tr>
-                  <th>Jugador</th>
-                  <th>Gol</th>
-                  <th>Tarjeta</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>R. Salinas</td><td>1</td><td>Sin tarjeta</td></tr>
-                <tr><td>T. Contreras</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>F. Morales</td><td>0</td><td>Amarilla</td></tr>
-                <tr><td>N. Ibarra</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>D. Fuenzalida</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>B. Cárdenas</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>S. Herrera</td><td>1</td><td>Sin tarjeta</td></tr>
-                <tr><td>J. Toledo</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>M. Riquelme</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>A. Vergara</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>C. Bravo</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>P. Lagos</td><td>0</td><td>Sin tarjeta</td></tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td><strong>TOTAL</strong></td>
-                  <td>2</td>
-                  <td>1</td>
-                </tr>
-                <tr><td colSpan="3">Capitán: R. Salinas</td></tr>
-              </tfoot>
-            </table>
-          
-            <table className="tabla-equipo">
-              <thead>
-                <tr><th colSpan="3">Equipo: DIGIMON FC</th></tr>
-                <tr>
-                  <th>Jugador</th>
-                  <th>Gol</th>
-                  <th>Tarjeta</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>L. Espinoza</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>G. Muñoz</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>E. Rojas</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>I. Sepúlveda</td><td>1</td><td>Sin tarjeta</td></tr>
-                <tr><td>V. Alarcón</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>H. Cortés</td><td>0</td><td>Amarilla</td></tr>
-                <tr><td>K. Reyes</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>O. Godoy</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>F. Bustos</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>N. Parra</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>D. Correa</td><td>0</td><td>Sin tarjeta</td></tr>
-                <tr><td>W. Aguirre</td><td>0</td><td>Sin tarjeta</td></tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td><strong>TOTAL</strong></td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-                <tr><td colSpan="3">Capitán: I. Sepúlveda</td></tr>
-              </tfoot>
-            </table>
+            {equiposDelPartido.map((equipo) => {
+              const capitan = equipo.jugadores.find((jugador) => jugador.dorsal === equipo.capitan);
+              const tarjetasEquipo = eventosDelPartido.filter(
+                (evento) =>
+                  evento.equipoId === equipo.id &&
+                  (evento.tipo === "amarilla" || evento.tipo === "roja")
+              );
+
+              return (
+                <table key={equipo.id} className="tabla-equipo">
+                  <thead>
+                    <tr><th colSpan="3">{equipo.nombre}</th></tr>
+                    <tr>
+                      <th>Jugador</th>
+                      <th>Gol</th>
+                      <th>Tarjeta</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {equipo.jugadores.map((jugador) => (
+                      <tr key={jugador.dorsal}>
+                        <td>{jugador.nombre}</td>
+                        <td>{contarEventosJugador(equipo.id, jugador.dorsal, "gol")}</td>
+                        <td>{textoTarjeta(equipo.id, jugador.dorsal)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td><strong>TOTAL</strong></td>
+                      <td>{contarGoles(partido.id, equipo.id)}</td>
+                      <td>{tarjetasEquipo.length}</td>
+                    </tr>
+                    <tr><td colSpan="3">Capitán: {capitan.nombre}</td></tr>
+                  </tfoot>
+                </table>
+              );
+            })}
           </div>
 
           <div style={{ marginBottom: "20px" }}>
@@ -107,19 +136,19 @@ export default function ActaPrevia({ cambiarVista }) {
           </div>
           
           <table className="tabla-resultado">
-            <caption>RESULTADO FINAL</caption>
+            <caption>RESULTADO</caption>
             <thead>
               <tr>
                 <th>EQUIPO</th>
-                <th>POKEMON FC</th>
-                <th>DIGIMON FC</th>
+                <th>{equiposDelPartido[0].nombre}</th>
+                <th>{equiposDelPartido[1].nombre}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th>Goles</th>
-                <td>2</td>
-                <td>1</td>
+                <td>{contarGoles(partido.id, partido.localId)}</td>
+                <td>{contarGoles(partido.id, partido.visitaId)}</td>
               </tr>
             </tbody>
           </table>
@@ -127,23 +156,18 @@ export default function ActaPrevia({ cambiarVista }) {
         
         <section>
           <h3>Incidencias de jugadores</h3>
-          <ul className="incidencia-list">
+          <ul className="incidencias-list">
             <li>
               Amonestaciones
-              <div className="incidencia-item">
-                <strong>POKEMON FC:</strong> F. Morales → Amarilla (min 22'): falta táctica sobre un rival en avance.
-              </div>
-              <div className="incidencia-item">
-                <strong>DIGIMON FC:</strong> H. Cortés → Amarilla (min 68'): protesta al árbitro por una decisión.
-              </div>
+              {mostrarIncidencias(amonestaciones)}
             </li>
             <li>
               Expulsiones
-              <div className="incidencia-item">NO OCURRIDAS</div>
+              {mostrarIncidencias(expulsiones)}
             </li>
             <li>
               Otras incidencias
-              <div className="incidencia-item">NO OCURRIDAS</div>
+              {mostrarIncidencias(otrasIncidencias)}
             </li>
           </ul>
         </section>

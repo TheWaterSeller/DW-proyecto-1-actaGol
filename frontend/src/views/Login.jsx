@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { roles } from "../data/datos";
 
 export default function Login({ onIngresar }) {
   const [email, setEmail] = useState("arbitro@actagol.cl");
@@ -53,9 +54,11 @@ export default function Login({ onIngresar }) {
                 value={rol}
                 onChange={(e) => setRol(e.target.value)}
               >
-                <option value="arbitro">Árbitro</option>
-                <option value="coordinador">Coordinador</option>
-                <option value="admin">Administrador</option>
+                {roles.map((rolOpcion) => (
+                  <option key={rolOpcion.id} value={rolOpcion.id}>
+                    {rolOpcion.nombre}
+                  </option>
+                ))}
               </select>
             </div>
 

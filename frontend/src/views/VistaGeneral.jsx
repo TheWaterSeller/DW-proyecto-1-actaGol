@@ -6,9 +6,13 @@ import Plantel from "./Plantel";
 
 export default function VistaGeneral({ usuario, onCerrarSesion }) {
   const [vistaActual, setVistaActual] = useState("partidos");
+  const [partidoId, setPartidoId] = useState(null);
 
-  const cambiarVista = (vista) => {
+  const cambiarVista = (vista, id) => {
     setVistaActual(vista);
+    if (id !== undefined) {
+      setPartidoId(id);
+    }
   };
 
   return (
@@ -25,16 +29,19 @@ export default function VistaGeneral({ usuario, onCerrarSesion }) {
           cambiarVista={cambiarVista} 
           usuario={usuario} 
           onCerrarSesion={onCerrarSesion} 
+          partidoId={partidoId}
         />
       )}
       {vistaActual === "acta" && (
         <ActaPrevia 
           cambiarVista={cambiarVista} 
+          partidoId={partidoId}
         />
       )}
       {vistaActual === "plantel" && (
         <Plantel 
           cambiarVista={cambiarVista} 
+          partidoId={partidoId}
         />
       )}
     </>

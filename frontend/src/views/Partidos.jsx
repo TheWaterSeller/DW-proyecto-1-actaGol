@@ -1,10 +1,20 @@
+import { partidos, competiciones, estados } from "../data/datos";
+import {
+  nombreRol,
+  nombreCompeticion,
+  nombreEstado,
+  buscarEquipo,
+  formatearFecha,
+  contarGoles,
+} from "../utils/partidos";
+
 export default function Partidos({ cambiarVista, usuario, onCerrarSesion }) {
   return (
     <>
       <header>
         <h1>ActaGol</h1>
         <p>
-          <strong>Usuario:</strong> {usuario?.email || "Usuario"} | <strong>Rol:</strong> {usuario?.rol || "Árbitro"}
+          <strong>Usuario:</strong> {usuario.email} | <strong>Rol:</strong> {nombreRol(usuario.rol)}
         </p>
         <nav>
           <ul>
@@ -17,7 +27,7 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion }) {
       <main className="main-container">
         <section>
           <h2>Mis Partidos Asignados</h2>
-          <p>Bienvenido, Árbitro. Aquí puedes consultar los encuentros programados para tu jornada.</p>
+          <p>Bienvenido. Aquí puedes consultar los encuentros programados para tu jornada.</p>
 
           <form action="#" method="get" onSubmit={(e) => e.preventDefault()}>
             <fieldset>
@@ -26,16 +36,21 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion }) {
               <label htmlFor="filtro-competicion">Competición:</label>
               <select id="filtro-competicion" name="competicion">
                 <option value="todas">Todas las competiciones</option>
-                <option value="apertura-2026">Torneo Apertura 2026</option>
-                <option value="sub-18">Campeonato Formativo Sub-18</option>
+                {competiciones.map((competicion) => (
+                  <option key={competicion.id} value={competicion.id}>
+                    {competicion.nombre}
+                  </option>
+                ))}
               </select>
 
               <label htmlFor="filtro-estado">Estado:</label>
               <select id="filtro-estado" name="estado">
                 <option value="todos">Todos los estados</option>
-                <option value="programado">Programado</option>
-                <option value="en-curso">En curso</option>
-                <option value="finalizado">Finalizado</option>
+                {estados.map((estado) => (
+                  <option key={estado.id} value={estado.id}>
+                    {estado.nombre}
+                  </option>
+                ))}
               </select>
 
               <button type="submit">Filtrar</button>
@@ -53,48 +68,36 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion }) {
                 <th scope="col">Fecha y Hora</th>
                 <th scope="col">Cancha</th>
                 <th scope="col">Equipos</th>
-                <th scope="col">Rol Asignado</th>
+                <th scope="col">Árbitro central</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>#101</td>
-                <td>Torneo Apertura 2026</td>
-                <td>10/10/2026</td>
-                <td>Estadio Monumental</td>
-                <td><strong>Pokemon FC</strong> vs. <strong>Digimon FC</strong></td>
-                <td>Árbitro Central</td>
-                <td>Programado</td>
-                <td>
-                  <a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('detalle'); }}>Ver detalle</a>
-                </td>
-              </tr>
-              <tr>
-                <td>#90</td>
-                <td>Torneo Apertura 2026</td>
-                <td>14/10/2026</td>
-                <td>Estadio Nacional</td>
-                <td><strong>Universidad Diego Portales</strong> vs. <strong>Universidad Andres Bello</strong></td>
-                <td>Árbitro Central</td>
-                <td>Programado</td>
-                <td>
-                  <a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('detalle'); }}>Ver detalle</a>
-                </td>
-              </tr>
-              <tr>
-                <td>#098</td>
-                <td>Torneo Apertura 2026</td>
-                <td>02/10/2026</td>
-                <td>La Bombonera</td>
-                <td><strong>Chile</strong> 2 - 1 <strong>Argentina</strong></td>
-                <td>Árbitro Central</td>
-                <td>Terminado</td>
-                <td>
-                  <a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('acta'); }}>Ver acta digital</a>
-                </td>
-              </tr>
+              {partidos.map((partido) => (
+                <tr key={partido.id}>
+                  <td>#{partido.id}</td>
+                  <td>{nombreCompeticion(partido.competicionId)}</td>
+                  <td>{formatearFecha(partido.fecha)} {partido.hora}</td>
+                  <td>{partido.cancha}</td>
+                  <td>
+                    <strong>{buscarEquipo(partido.localId).nombre}</strong>
+                    {partido.estado === "programado"
+                      ? " vs. "
+                      : ` ${contarGoles(partido.id, partido.localId)} - ${contarGoles(partido.id, partido.visitaId)} `}
+                    <strong>{buscarEquipo(partido.visitaId).nombre}</strong>
+                  </td>
+                  <td>{partido.arbitros.central}</td>
+                  <td>{nombreEstado(partido.estado)}</td>
+                  <td>
+                    {partido.estado === "finalizado" ? (
+                      <a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('acta', partido.id); }}>Ver acta digital</a>
+                    ) : (
+                      <a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('detalle', partido.id); }}>Ver detalle</a>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </section>

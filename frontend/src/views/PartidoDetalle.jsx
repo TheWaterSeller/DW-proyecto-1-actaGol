@@ -1,10 +1,24 @@
-export default function PartidoDetalle({ cambiarVista, usuario, onCerrarSesion }) {
+import { partidos } from "../data/datos";
+import {
+  nombreRol,
+  nombreCompeticion,
+  nombreEstado,
+  buscarEquipo,
+  formatearFecha,
+  contarGoles,
+} from "../utils/partidos";
+
+export default function PartidoDetalle({ cambiarVista, usuario, onCerrarSesion, partidoId }) {
+  const partido = partidos.find((p) => p.id === partidoId);
+  const local = buscarEquipo(partido.localId);
+  const visita = buscarEquipo(partido.visitaId);
+
   return (
     <>
       <header>
         <h1>ActaGol</h1>
         <p>
-          <strong>Usuario:</strong> {usuario?.email || "Usuario"} | <strong>Rol:</strong> {usuario?.rol || "Árbitro"} 
+          <strong>Usuario:</strong> {usuario.email} | <strong>Rol:</strong> {nombreRol(usuario.rol)}
         </p>
         <nav>
           <ul>
@@ -15,41 +29,51 @@ export default function PartidoDetalle({ cambiarVista, usuario, onCerrarSesion }
       </header>
 
       <main className="main-container">
-        <h2>Detalle del Partido</h2>
+        <h2>Detalle del Partido #{partido.id}</h2>
 
         <div className="scoreboard">
-          <h3>Pokemon FC vs Digimon FC</h3>
-          <div className="score">0 - 0</div>
-          <span className="badge badge-prog">Programado</span>
+          <h3>{local.nombre} vs {visita.nombre}</h3>
+          {partido.estado !== "programado" && (
+            <div className="score">
+              {contarGoles(partido.id, partido.localId)} - {contarGoles(partido.id, partido.visitaId)}
+            </div>
+          )}
+          <span className={partido.estado === "programado" ? "badge badge-prog" : "badge"}>
+            {nombreEstado(partido.estado)}
+          </span>
         </div>
 
         <div className="grid-2-cols">
-          <section aria-labelledby="torneo-apertura-programado">
-            <h3 id="torneo-apertura-programado">Torneo Apertura 2026</h3>
+          <section aria-labelledby="titulo-competicion">
+            <h3 id="titulo-competicion">{nombreCompeticion(partido.competicionId)}</h3>
 
             <dl className="info-list">
               <div>
                 <dt>Fecha y hora</dt>
-                <dd><time dateTime="2026-10-10T15:30">10/10/2026 a las 15:30 hrs</time></dd>
+                <dd>
+                  <time dateTime={`${partido.fecha}T${partido.hora}`}>
+                    {formatearFecha(partido.fecha)} a las {partido.hora} hrs
+                  </time>
+                </dd>
               </div>
 
               <div>
                 <dt>Cancha / Estadio</dt>
-                <dd>Estadio Monumental</dd>
+                <dd>{partido.cancha}</dd>
               </div>
 
               <div>
-                <dt>Árbitro Asignado</dt>
-                <dd>Árbitro Central</dd>
+                <dt>Árbitro central</dt>
+                <dd>{partido.arbitros.central}</dd>
               </div>
             </dl>
 
             <div className="actions-group">
               <p><strong>Acciones disponibles:</strong></p>
               <a href="#" className="btn-secondary" onClick={(e) => { e.preventDefault(); cambiarVista('plantel'); }}>Ver plantel de los Equipos</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('acta'); }}>
-                <button type="button" style={{ width: "100%" }}>Ingresar al Acta Digital</button>
-              </a>
+              <button type="button" style={{ width: "100%" }} onClick={() => cambiarVista('acta')}>
+                Ingresar al Acta Digital
+              </button>
             </div>
           </section>
 
@@ -58,19 +82,19 @@ export default function PartidoDetalle({ cambiarVista, usuario, onCerrarSesion }
             <ul className="referee-list">
               <li>
                 <span className="role">Árbitro Central:</span>
-                <span>David Cáceres</span>
+                <span>{partido.arbitros.central}</span>
               </li>
               <li>
                 <span className="role">Árbitro Asistente 1:</span>
-                <span>Jorge Perez</span>
+                <span>{partido.arbitros.asistente1}</span>
               </li>
               <li>
                 <span className="role">Árbitro Asistente 2:</span>
-                <span>Martin Martinez</span>
+                <span>{partido.arbitros.asistente2}</span>
               </li>
               <li>
                 <span className="role">Cuarto Árbitro:</span>
-                <span>Camila Herrera</span>
+                <span>{partido.arbitros.cuarto}</span>
               </li>
             </ul>
           </section>

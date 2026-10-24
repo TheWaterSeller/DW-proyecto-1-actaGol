@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Login from "./views/Login";
 import VistaGeneral from "./views/VistaGeneral";
-import { nombreRol } from "./utils/partidos";
 import "./App.css";
 
 function App() {
