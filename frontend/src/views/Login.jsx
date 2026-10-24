@@ -1,104 +1,68 @@
 import { useState } from "react";
-import { roles } from "../data/datos";
 
-const formularioInicial = { email: "", password: "", rol: "arbitro" };
+export default function Login({ onIngresar }) {
+  const [email, setEmail] = useState("arbitro@actagol.cl");
+  const [password, setPassword] = useState("123456");
+  const [rol, setRol] = useState("arbitro");
 
-function validarLogin(form) {
-  const errores = {};
-  const email = form.email.trim();
-
-  if (email === "") {
-    errores.email = "Ingresa tu correo electrónico.";
-  } else if (!email.includes("@") || !email.includes(".")) {
-    errores.email = "Escribe un correo válido, por ejemplo arbitro@actagol.cl.";
-  }
-
-  if (form.password === "") {
-    errores.password = "Ingresa tu contraseña.";
-  } else if (form.password.length < 6) {
-    errores.password = "La contraseña debe tener al menos 6 caracteres.";
-  }
-
-  return errores;
-}
-
-function Login({ onIngresar }) {
-  const [form, setForm] = useState(formularioInicial);
-  const [errores, setErrores] = useState({});
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setForm((anterior) => ({ ...anterior, [name]: value }));
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    const nuevosErrores = validarLogin(form);
-    setErrores(nuevosErrores);
-
-    if (nuevosErrores.email || nuevosErrores.password) {
-      return;
-    }
-
-    onIngresar({ email: form.email.trim(), rol: form.rol });
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Evita que el navegador recargue la página
+    onIngresar({ email, rol }); // Envía el objeto de usuario a App.jsx
+  };
 
   return (
-    <main className="pantalla-centrada">
-      <section className="tarjeta tarjeta-login">
-        <h1 className="logo">ActaGol</h1>
-        <p className="subtitulo">Plataforma digital para el registro arbitral</p>
+    <main className="login-container">
+      <section>
+        <h1>ActaGol</h1>
+        <p>Plataforma digital para el registro arbitral</p>
 
-        <form className="formulario" onSubmit={handleSubmit} noValidate>
-          <div className="campo">
-            <label htmlFor="email">Correo electrónico</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="arbitro@actagol.cl"
-              value={form.email}
-              onChange={handleChange}
-            />
-            {errores.email && <p className="mensaje-error">{errores.email}</p>}
-          </div>
+        <form onSubmit={handleSubmit}>
+          <fieldset>
+            <legend>Ingreso a la plataforma</legend>
+            
+            <div>
+              <label htmlFor="email">Correo electrónico:</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="arbitro@actagol.cl" 
+              />
+            </div>
 
-          <div className="campo">
-            <label htmlFor="password">Contraseña</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={form.password}
-              onChange={handleChange}
-            />
-            {errores.password && <p className="mensaje-error">{errores.password}</p>}
-          </div>
+            <div>
+              <label htmlFor="password">Contraseña:</label>
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-          <div className="campo">
-            <label htmlFor="rol">Rol de acceso (demostración)</label>
-            <select id="rol" name="rol" value={form.rol} onChange={handleChange}>
-              {roles.map((rol) => (
-                <option key={rol.id} value={rol.id}>
-                  {rol.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div>
+              <label htmlFor="rol">Rol de acceso (demostración):</label>
+              <select 
+                id="rol" 
+                name="rol"
+                value={rol}
+                onChange={(e) => setRol(e.target.value)}
+              >
+                <option value="arbitro">Árbitro</option>
+                <option value="coordinador">Coordinador</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
 
-          <p className="texto-ayuda">
-            Para la demostración puedes usar cualquier correo válido y una contraseña de al menos
-            6 caracteres.
-          </p>
-
-          <button type="submit" className="boton boton-bloque">
-            Entrar
-          </button>
+            <button type="submit">Entrar</button>
+          </fieldset>
         </form>
       </section>
     </main>
   );
 }
-
-export default Login;
