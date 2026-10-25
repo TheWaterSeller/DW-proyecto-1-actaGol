@@ -1,23 +1,17 @@
-import { partidos } from "../data/datos";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { buscarEquipo } from "../utils/partidos";
 
-export default function Plantel({ cambiarVista, partidoId }) {
-  const partido = partidos.find((p) => p.id === partidoId);
+export default function Plantel({ cambiarVista, usuario, onCerrarSesion, partidoId, listaPartidos }) {
+  const partido = listaPartidos.find((p) => p.id === partidoId);
   const equiposDelPartido = [buscarEquipo(partido.localId), buscarEquipo(partido.visitaId)];
 
   return (
     <>
-      <header>
-        <h1>ActaGol</h1>
-        <nav>
-          <ul>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('detalle'); }}>Volver al Detalle</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('partidos'); }}>Partidos Asignados</a></li>
-          </ul>
-        </nav>
-      </header>
+      <Header usuario={usuario} cambiarVista={cambiarVista} onCerrarSesion={onCerrarSesion} />
 
       <main className="main-container">
+        <a href="#" className="btn-secondary enlace-volver" onClick={(e) => { e.preventDefault(); cambiarVista('detalle'); }}>Volver al Detalle</a>
         <h2>Planteles Oficiales</h2>
 
         <div className="grid-2-cols grid-equitativa">
@@ -76,9 +70,7 @@ export default function Plantel({ cambiarVista, partidoId }) {
         </div>
       </main>
       
-      <footer>
-        <p><small>&copy; 2026 ActaGol - Sistema de Registro Arbitral.</small></p>
-      </footer>
+      <Footer />
     </>
   );
 }

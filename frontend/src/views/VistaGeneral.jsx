@@ -45,6 +45,8 @@ export default function VistaGeneral({ usuario, onCerrarSesion }) {
       {vistaActual === "acta" && (
         <ActaPrevia 
           cambiarVista={cambiarVista} 
+          usuario={usuario} 
+          onCerrarSesion={onCerrarSesion} 
           partidoId={partidoId}
           listaPartidos={listaPartidos}
           listaEventos={listaEventos}
@@ -53,6 +55,8 @@ export default function VistaGeneral({ usuario, onCerrarSesion }) {
       {vistaActual === "plantel" && (
         <Plantel 
           cambiarVista={cambiarVista} 
+          usuario={usuario} 
+          onCerrarSesion={onCerrarSesion} 
           partidoId={partidoId}
           listaPartidos={listaPartidos}
         />

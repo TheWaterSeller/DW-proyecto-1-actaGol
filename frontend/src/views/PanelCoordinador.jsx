@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { competiciones, equipos } from "../data/datos";
-import { nombreRol } from "../utils/partidos";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function PanelCoordinador({ cambiarVista, usuario, onCerrarSesion, listaPartidos, setListaPartidos }) {
   const [competicion, setCompeticion] = useState(competiciones[0].id);
@@ -38,16 +39,7 @@ export default function PanelCoordinador({ cambiarVista, usuario, onCerrarSesion
 
   return (
     <>
-      <header>
-        <h1>ActaGol - Gestión</h1>
-        <p><strong>Usuario:</strong> {usuario.email} | <strong>Rol:</strong> {nombreRol(usuario.rol)}</p>
-        <nav>
-          <ul>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('partidos'); }}>Partidos Asignados</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onCerrarSesion(); }}>Cerrar Sesión</a></li>
-          </ul>
-        </nav>
-      </header>
+      <Header usuario={usuario} cambiarVista={cambiarVista} onCerrarSesion={onCerrarSesion} />
       <main className="main-container">
         <section style={{ maxWidth: "600px", margin: "0 auto" }}>
           <h2>Programar Nuevo Partido</h2>
@@ -100,6 +92,7 @@ export default function PanelCoordinador({ cambiarVista, usuario, onCerrarSesion
           </form>
         </section>
       </main>
+      <Footer />
     </>
   );
 }
