@@ -4,6 +4,7 @@ import PartidoDetalle from "./PartidoDetalle";
 import ActaPrevia from "./ActaPrevia";
 import Plantel from "./Plantel";
 import {partidos as datosPartidos, eventos as datosEventos} from "../data/datos";
+import PanelCoordinador from "./PanelCoordinador";
 
 export default function VistaGeneral({ usuario, onCerrarSesion }) {
   const [vistaActual, setVistaActual] = useState("partidos");
@@ -54,6 +55,15 @@ export default function VistaGeneral({ usuario, onCerrarSesion }) {
           cambiarVista={cambiarVista} 
           partidoId={partidoId}
           listaPartidos={listaPartidos}
+        />
+      )}
+      {vistaActual === "coordinador" && (
+        <PanelCoordinador 
+          cambiarVista={cambiarVista} 
+          usuario={usuario} 
+          onCerrarSesion={onCerrarSesion}
+          listaPartidos={listaPartidos}
+          setListaPartidos={setListaPartidos}
         />
       )}
     </>
