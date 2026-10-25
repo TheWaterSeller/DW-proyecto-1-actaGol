@@ -5,7 +5,6 @@ import {
   nombreEstado,
   buscarEquipo,
   formatearFecha,
-  contarGoles,
 } from "../utils/partidos";
 import { useState } from "react";
 

@@ -5,7 +5,6 @@ import {
   nombreEstado,
   buscarEquipo,
   formatearFecha,
-  contarGoles,
 } from "../utils/partidos";
 
 export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaPartidos }) {
@@ -81,11 +80,8 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaP
                   <td>{formatearFecha(partido.fecha)} {partido.hora}</td>
                   <td>{partido.cancha}</td>
                   <td>
-                    <strong>{buscarEquipo(partido.localId).nombre}</strong>
-                    {partido.estado === "programado"
-                      ? " vs. "
-                      : ` ${contarGoles(partido.id, partido.localId)} - ${contarGoles(partido.id, partido.visitaId)} `}
-                    <strong>{buscarEquipo(partido.visitaId).nombre}</strong>
+                  <strong>{buscarEquipo(partido.localId).nombre}</strong> vs.{" "}
+                  <strong>{buscarEquipo(partido.visitaId).nombre}</strong>
                   </td>
                   <td>{partido.arbitros.central}</td>
                   <td>{nombreEstado(partido.estado)}</td>
