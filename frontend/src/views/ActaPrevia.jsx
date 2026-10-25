@@ -1,6 +1,8 @@
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { buscarEquipo, formatearFecha } from "../utils/partidos";
 
-export default function ActaPrevia({ cambiarVista, partidoId, listaPartidos, listaEventos }) {
+export default function ActaPrevia({ cambiarVista, usuario, onCerrarSesion, partidoId, listaPartidos, listaEventos }) {
   const partido = listaPartidos.find((p) => p.id === partidoId);
   const equiposDelPartido = [buscarEquipo(partido.localId), buscarEquipo(partido.visitaId)];
   const eventosDelPartido = listaEventos.filter((evento) => evento.partidoId === partido.id);
@@ -55,17 +57,10 @@ export default function ActaPrevia({ cambiarVista, partidoId, listaPartidos, lis
 
   return (
     <>
-      <header>
-        <h1>ActaGol</h1>
-        <nav>
-          <ul>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('detalle'); }}>Volver al Detalle</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); cambiarVista('partidos'); }}>Partidos Asignados</a></li>
-          </ul>
-        </nav>
-      </header>
+      <Header usuario={usuario} cambiarVista={cambiarVista} onCerrarSesion={onCerrarSesion} />
 
       <main className="main-container">
+        <a href="#" className="btn-secondary enlace-volver" onClick={(e) => { e.preventDefault(); cambiarVista('detalle'); }}>Volver al Detalle</a>
         <h2>Acta del Partido #{partido.id}</h2>
         
         <section>
@@ -175,9 +170,7 @@ export default function ActaPrevia({ cambiarVista, partidoId, listaPartidos, lis
         </section>
       </main>
 
-      <footer>
-        <p><small>&copy; 2026 ActaGol - Sistema de Registro Arbitral.</small></p>
-      </footer>
+      <Footer />
     </>
   );
 }
