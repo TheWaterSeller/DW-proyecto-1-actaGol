@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { competiciones, estados } from "../data/datos";
 import {
   nombreRol,
@@ -5,9 +6,20 @@ import {
   nombreEstado,
   buscarEquipo,
   formatearFecha,
+  filtrarPartidos,
 } from "../utils/partidos";
 
 export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaPartidos }) {
+  const [filtroCompeticion, setFiltroCompeticion] = useState("todas");
+  const [filtroEstado, setFiltroEstado] = useState("todos");
+
+  const partidosFiltrados = filtrarPartidos(listaPartidos, filtroCompeticion, filtroEstado);
+
+  const limpiarFiltros = () => {
+    setFiltroCompeticion("todas");
+    setFiltroEstado("todos");
+  };
+
   return (
     <>
       <header>
@@ -29,12 +41,17 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaP
           <h2>Mis Partidos Asignados</h2>
           <p>Bienvenido. Aquí puedes consultar los encuentros programados para tu jornada.</p>
 
-          <form action="#" method="get" onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={(e) => e.preventDefault()}>
             <fieldset>
               <legend>Filtrar partidos</legend>
-              
+
               <label htmlFor="filtro-competicion">Competición:</label>
-              <select id="filtro-competicion" name="competicion">
+              <select
+                id="filtro-competicion"
+                name="competicion"
+                value={filtroCompeticion}
+                onChange={(e) => setFiltroCompeticion(e.target.value)}
+              >
                 <option value="todas">Todas las competiciones</option>
                 {competiciones.map((competicion) => (
                   <option key={competicion.id} value={competicion.id}>
@@ -44,7 +61,12 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaP
               </select>
 
               <label htmlFor="filtro-estado">Estado:</label>
-              <select id="filtro-estado" name="estado">
+              <select
+                id="filtro-estado"
+                name="estado"
+                value={filtroEstado}
+                onChange={(e) => setFiltroEstado(e.target.value)}
+              >
                 <option value="todos">Todos los estados</option>
                 {estados.map((estado) => (
                   <option key={estado.id} value={estado.id}>
@@ -53,14 +75,14 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaP
                 ))}
               </select>
 
-              <button type="submit">Filtrar</button>
+              <button type="button" onClick={limpiarFiltros}>Limpiar filtros</button>
             </fieldset>
           </form>
         </section>
 
         <section>
-          <h3>Listado de Encuentros</h3>
-          <table border="1">
+          <h3>Listado de Encuentros ({partidosFiltrados.length})</h3>
+          <table>
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -74,15 +96,20 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaP
               </tr>
             </thead>
             <tbody>
-              {listaPartidos.map((partido) => (
+              {partidosFiltrados.length === 0 && (
+                <tr>
+                  <td colSpan="8">No hay partidos que coincidan con los filtros seleccionados.</td>
+                </tr>
+              )}
+              {partidosFiltrados.map((partido) => (
                 <tr key={partido.id}>
                   <td>#{partido.id}</td>
                   <td>{nombreCompeticion(partido.competicionId)}</td>
                   <td>{formatearFecha(partido.fecha)} {partido.hora}</td>
                   <td>{partido.cancha}</td>
                   <td>
-                  <strong>{buscarEquipo(partido.localId).nombre}</strong> vs.{" "}
-                  <strong>{buscarEquipo(partido.visitaId).nombre}</strong>
+                    <strong>{buscarEquipo(partido.localId).nombre}</strong> vs.{" "}
+                    <strong>{buscarEquipo(partido.visitaId).nombre}</strong>
                   </td>
                   <td>{partido.arbitros.central}</td>
                   <td>{nombreEstado(partido.estado)}</td>

@@ -42,3 +42,11 @@ export function contarGoles(partidoId, equipoId) {
   );
   return goles.length;
 }
+export function filtrarPartidos(listaPartidos, competicionId, estadoId) {
+  return listaPartidos.filter((partido) => {
+    const coincideCompeticion =
+      competicionId === "todas" || partido.competicionId === competicionId;
+    const coincideEstado = estadoId === "todos" || partido.estado === estadoId;
+    return coincideCompeticion && coincideEstado;
+  });
+}
