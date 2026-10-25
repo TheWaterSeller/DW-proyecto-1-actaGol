@@ -1,4 +1,4 @@
-import { partidos, competiciones, estados } from "../data/datos";
+import { competiciones, estados } from "../data/datos";
 import {
   nombreRol,
   nombreCompeticion,
@@ -8,7 +8,7 @@ import {
   contarGoles,
 } from "../utils/partidos";
 
-export default function Partidos({ cambiarVista, usuario, onCerrarSesion }) {
+export default function Partidos({ cambiarVista, usuario, onCerrarSesion, listaPartidos }) {
   return (
     <>
       <header>
@@ -74,7 +74,7 @@ export default function Partidos({ cambiarVista, usuario, onCerrarSesion }) {
               </tr>
             </thead>
             <tbody>
-              {partidos.map((partido) => (
+              {listaPartidos.map((partido) => (
                 <tr key={partido.id}>
                   <td>#{partido.id}</td>
                   <td>{nombreCompeticion(partido.competicionId)}</td>

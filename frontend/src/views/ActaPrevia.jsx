@@ -1,22 +1,24 @@
-import { partidos, eventos } from "../data/datos";
-import { buscarEquipo, formatearFecha, contarGoles } from "../utils/partidos";
+import { buscarEquipo, formatearFecha } from "../utils/partidos";
 
-export default function ActaPrevia({ cambiarVista, partidoId }) {
-  const partido = partidos.find((p) => p.id === partidoId);
+export default function ActaPrevia({ cambiarVista, partidoId, listaPartidos, listaEventos }) {
+  const partido = listaPartidos.find((p) => p.id === partidoId);
   const equiposDelPartido = [buscarEquipo(partido.localId), buscarEquipo(partido.visitaId)];
-  const eventosDelPartido = eventos.filter((evento) => evento.partidoId === partido.id);
+  const eventosDelPartido = listaEventos.filter((evento) => evento.partidoId === partido.id);
 
   const amonestaciones = eventosDelPartido.filter((evento) => evento.tipo === "amarilla");
   const expulsiones = eventosDelPartido.filter((evento) => evento.tipo === "roja");
   const otrasIncidencias = eventosDelPartido.filter(
-    (evento) => evento.tipo === "falta" || evento.tipo === "incidencia"
+    (evento) => evento.tipo !== "gol" && evento.tipo !== "amarilla" && evento.tipo !== "roja"
   );
 
   function contarEventosJugador(equipoId, dorsal, tipo) {
-    const encontrados = eventosDelPartido.filter(
+    return eventosDelPartido.filter(
       (evento) => evento.equipoId === equipoId && evento.dorsal === dorsal && evento.tipo === tipo
-    );
-    return encontrados.length;
+    ).length;
+  }
+
+  function contarGolesEquipo(equipoId) {
+    return eventosDelPartido.filter((e) => e.equipoId === equipoId && e.tipo === "gol").length;
   }
 
   function textoTarjeta(equipoId, dorsal) {
@@ -121,7 +123,7 @@ export default function ActaPrevia({ cambiarVista, partidoId }) {
                   <tfoot>
                     <tr>
                       <td><strong>TOTAL</strong></td>
-                      <td>{contarGoles(partido.id, equipo.id)}</td>
+                      <td>{contarGolesEquipo(equipo.id)}</td>
                       <td>{tarjetasEquipo.length}</td>
                     </tr>
                     <tr><td colSpan="3">Capitán: {capitan.nombre}</td></tr>
@@ -147,8 +149,8 @@ export default function ActaPrevia({ cambiarVista, partidoId }) {
             <tbody>
               <tr>
                 <th>Goles</th>
-                <td>{contarGoles(partido.id, partido.localId)}</td>
-                <td>{contarGoles(partido.id, partido.visitaId)}</td>
+                <td>{contarGolesEquipo(partido.localId)}</td>
+                <td>{contarGolesEquipo(partido.visitaId)}</td>
               </tr>
             </tbody>
           </table>

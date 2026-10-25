@@ -3,10 +3,14 @@ import Partidos from "./Partidos";
 import PartidoDetalle from "./PartidoDetalle";
 import ActaPrevia from "./ActaPrevia";
 import Plantel from "./Plantel";
+import {partidos as datosPartidos, eventos as datosEventos} from "../data/datos";
 
 export default function VistaGeneral({ usuario, onCerrarSesion }) {
   const [vistaActual, setVistaActual] = useState("partidos");
   const [partidoId, setPartidoId] = useState(null);
+
+  const [listaPartidos, setListaPartidos] = useState(datosPartidos);
+  const [listaEventos, setListaEventos] = useState(datosEventos);
 
   const cambiarVista = (vista, id) => {
     setVistaActual(vista);
@@ -22,6 +26,7 @@ export default function VistaGeneral({ usuario, onCerrarSesion }) {
           cambiarVista={cambiarVista} 
           usuario={usuario} 
           onCerrarSesion={onCerrarSesion} 
+          listaPartidos={listaPartidos}
         />
       )}
       {vistaActual === "detalle" && (
@@ -30,18 +35,25 @@ export default function VistaGeneral({ usuario, onCerrarSesion }) {
           usuario={usuario} 
           onCerrarSesion={onCerrarSesion} 
           partidoId={partidoId}
+          listaPartidos={listaPartidos}
+          setListaPartidos={setListaPartidos}
+          listaEventos={listaEventos}
+          setListaEventos={setListaEventos}
         />
       )}
       {vistaActual === "acta" && (
         <ActaPrevia 
           cambiarVista={cambiarVista} 
           partidoId={partidoId}
+          listaPartidos={listaPartidos}
+          listaEventos={listaEventos}
         />
       )}
       {vistaActual === "plantel" && (
         <Plantel 
           cambiarVista={cambiarVista} 
           partidoId={partidoId}
+          listaPartidos={listaPartidos}
         />
       )}
     </>
